@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Lens</title>
+  <link rel="stylesheet" href="popup.css">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo-container">
+        <div class="logo-icon">🛡️</div>
+      </div>
+      <h1>Privacy Lens</h1>
+      <p>AI-Powered Policy Analysis</p>
+    </header>
+    
+    <main>
+      <button id="analyze-btn" class="primary-btn">
+        <span class="btn-text">Analyze Current Page</span>
+        <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+      </button>
+      
+      <div id="loading" class="hidden">
+        <div class="pulse-ring"></div>
+        <p>Scanning the fine print...</p>
+      </div>
+
+      <div id="results" class="hidden">
+        <div class="card warning fade-in">
+          <div class="card-header">
+            <span class="card-icon">🚨</span>
+            <h3>Critical Red Flags</h3>
+          </div>
+          <ul id="red-flags-list"></ul>
+        </div>
+        
+        <div class="card summary fade-in" style="animation-delay: 0.1s;">
+          <div class="card-header">
+            <span class="card-icon">✨</span>
+            <h3>TL;DR Summary</h3>
+          </div>
+          <p id="summary-text"></p>
+        </div>
+      </div>
+      
+      <div id="error" class="hidden error-message fade-in">
+        <span class="error-icon">⚠️</span>
+        <span id="error-text"></span>
+      </div>
+    </main>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

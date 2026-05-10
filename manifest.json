@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "Privacy Lens",
+  "version": "1.0",
+  "description": "Summarizes privacy policies and highlights red flags using AI.",
+  "permissions": [
+    "activeTab",
+    "scripting"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["scripts/auto_analyze.js"],
+      "css": ["scripts/auto_analyze.css"]
+    }
+  ],
+  "action": {
+    "default_popup": "popup/popup.html"
+  },
+  "background": {
+    "service_worker": "scripts/background.js"
+  }
+}

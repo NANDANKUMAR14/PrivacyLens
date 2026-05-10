@@ -1,0 +1,8 @@
+node_modules/
+.DS_Store
+
+# Ignore the real config file containing the API key
+config.js
+
+# Do NOT ignore config.example.js (this is for GitHub)
+!config.example.js
