@@ -3,7 +3,7 @@ function isPrivacyPage() {
   const title = document.title.toLowerCase();
   
   // Check for common keywords in URL or Title
-  const keywords = ['privacy', 'terms', 'conditions','disclaimer','privacy policy','terms of service','terms and conditions'];
+  const keywords = ['disclaimer','privacy policy','terms of service','terms and conditions'];
   return keywords.some(keyword => url.includes(keyword) || title.includes(keyword));
 }
 
