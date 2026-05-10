@@ -62,7 +62,7 @@ This extension requires a Google Gemini API Key to run the AI analysis.
 
 - **Frontend**: Vanilla HTML, CSS, JavaScript
 - **Design**: Modern Glassmorphism, Google Outfit Font, Custom CSS Animations
-- **Backend / AI**: Google Gemini API (`gemini-1.5-flash`)
+- **Backend / AI**: Google Gemini API (`gemini-2.5-flash`)
 - **Architecture**: Chrome Extensions API (Manifest V3)
 
 ---
