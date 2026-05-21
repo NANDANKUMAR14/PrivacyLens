@@ -1,16 +1,36 @@
 # 🛡️ PrivacyLens
 
-**PrivacyLens** is an AI-powered browser extension that automatically reads and summarizes complex Privacy Policies and Terms of Service agreements so you don't have to. Built with Google's Gemini AI, it instantly detects critical privacy "red flags" and provides a 10-year-old friendly summary of how your data is being used.
+**PrivacyLens** is an AI-powered browser extension that automatically reads and summarizes Privacy Policies, Terms of Service, Terms and Conditions, and Disclaimers so you don't have to. Built with Google's Gemini AI (`gemini-2.5-flash`), it detects up to 3 critical privacy "red flags" and gives you a plain-English, 2-sentence TL;DR of the legal wall of text.
 
 ---
 
 ## ✨ Features
 
-- **🚀 Auto-Detects Privacy Pages**: Instantly triggers when you visit any Privacy Policy or Terms of Service page.
-- **🚨 Red Flag Detection**: Uses Gemini AI to highlight the most critical privacy risks (e.g., selling your data, endless data retention, hidden location tracking) in plain English.
-- **📝Summaries**: Gives you a 2-sentence conversational summary of the massive legal wall of text.
-- **🔗 Smart Highlighting**: Finds and highlights links to Privacy Policies on *any* website you visit so you know where to click.
-- **💎 Premium UI**: Beautiful, glassmorphic, fluid floating UI injected right into the webpage.
+- **🚀 Auto-Detects Policy Pages**: Automatically triggers when you visit a page whose URL or title contains "privacy policy", "terms of service", "terms and conditions", or "disclaimer". Requires at least 200 characters of readable text on the page.
+- **🚨 Red Flag Detection**: Uses Gemini AI to surface up to 3 of the most critical privacy risks (e.g., selling your data, location tracking, sharing with unnamed third parties) explained in simple, conversational language.
+- **📝 TL;DR Summary**: Provides a 2-sentence summary written for everyday people, shown automatically in the floating panel and in the popup.
+- **🔗 Smart Link Highlighting**: On every page you visit, links whose text contains "privacy policy", "terms of service", or "terms and conditions" are highlighted with a blue dashed bottom border and a light blue background tint so you always know where to click.
+- **💎 Glassmorphic Floating UI**: A polished, animated floating panel (400 px wide, `backdrop-filter: blur`) slides up from the bottom-right corner of policy pages. The extension popup uses the same design language.
+
+---
+
+## 📁 File Structure
+
+```
+PrivacyLens/
+├── manifest.json          # Manifest V3 extension config
+├── config.js              # Your API key (git-ignored, create manually)
+├── popup/
+│   ├── popup.html         # Extension toolbar popup
+│   ├── popup.css          # Popup styles (Outfit font, glassmorphic cards)
+│   └── popup.js           # Manual analysis logic
+└── scripts/
+    ├── auto_analyze.js    # Content script: auto-detects policy pages,
+    │                      #   injects floating panel, highlights links
+    ├── auto_analyze.css   # Floating panel styles
+    ├── background.js      # Service worker: calls Gemini API
+    └── content.js         # Text extractor injected by the popup
+```
 
 ---
 
@@ -25,25 +45,25 @@ cd PrivacyLens
 ```
 
 ### 2. Set Up Your API Key
-This extension requires a Google Gemini API Key to run the AI analysis.
+This extension requires a Google Gemini API key to run the AI analysis.
 
 1. Get a free API key from [Google AI Studio](https://aistudio.google.com/).
-2. Copy the `config.example.js` file and rename it to `config.js`.
-3. Open `config.js` and paste your API key:
+2. Create a file named `config.js` in the root of the `PrivacyLens` folder.
+3. Paste the following into `config.js` with your key:
    ```javascript
    const CONFIG = {
      GEMINI_API_KEY: "YOUR_API_KEY_HERE"
    };
    ```
-*(Note: `config.js` is ignored by git, so your API key will remain safe and will not be pushed to GitHub).*
+   > `config.js` is listed in `.gitignore`, so your API key will never be pushed to GitHub.
 
-### 3. Load into your Browser
+### 3. Load into Your Browser
 **For Chrome / Edge / Brave:**
 1. Open your browser and navigate to the extensions page:
    - Chrome: `chrome://extensions/`
    - Edge: `edge://extensions/`
-2. Enable **Developer mode** (usually a toggle in the top right or left).
-3. Click the **Load unpacked** button.
+2. Enable **Developer mode** (toggle in the top-right corner).
+3. Click **Load unpacked**.
 4. Select the `PrivacyLens` folder you cloned.
 
 🎉 **You're done!** The extension is now active.
@@ -52,18 +72,21 @@ This extension requires a Google Gemini API Key to run the AI analysis.
 
 ## 💡 How to Use
 
-1. **Auto-Pilot**: Just browse the web! When you visit a page with "Privacy Policy" or "Terms" in the title/URL, a beautiful floating window will automatically appear, scan the page, and show you the TL;DR.
-2. **Manual Scan**: Click the `PrivacyLens` extension icon in your browser toolbar on *any* page and click **"Analyze Current Page"** to manually scan it for privacy risks.
-3. **Link Spotting**: As you browse, the extension will automatically highlight links pointing to privacy policies with a soft blue dashed border so you never miss them.
+1. **Auto-Pilot**: Just browse the web. When you land on a page whose URL or title matches a policy keyword *and* the page has more than 200 characters of text, a floating "Privacy Lens Analysis" panel slides up automatically in the bottom-right corner. It first shows a loading spinner ("Scanning the fine print…"), then replaces it with the red flags and TL;DR summary.
+2. **Manual Scan**: Click the **Privacy Lens** extension icon in your browser toolbar on *any* page, then click **"Analyze Current Page"** to trigger an on-demand analysis. The popup extracts up to 10,000 characters of text from the page and sends it to Gemini.
+3. **Link Spotting**: On every page you visit, the extension automatically highlights links to privacy policies and terms pages with a dashed blue underline and a faint blue background, so they're impossible to miss.
 
 ---
 
 ## 💻 Tech Stack
 
-- **Frontend**: Vanilla HTML, CSS, JavaScript
-- **Design**: Modern Glassmorphism, Google Outfit Font, Custom CSS Animations
-- **Backend / AI**: Google Gemini API (`gemini-2.5-flash`)
-- **Architecture**: Chrome Extensions API (Manifest V3)
+| Layer | Details |
+|---|---|
+| Frontend | Vanilla HTML, CSS, JavaScript |
+| Design | Glassmorphism (`backdrop-filter: blur`), Google Outfit font, CSS animations |
+| AI / Backend | Google Gemini API — `gemini-2.5-flash` |
+| Architecture | Chrome Extensions API — Manifest V3 (service worker + content scripts) |
+| Permissions | `activeTab`, `scripting` |
 
 ---
 
